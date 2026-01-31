@@ -5,156 +5,143 @@
 <title>Will you be my Valentine Nono?</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #fde4fd;
-    padding-top: 40px;
-    overflow-x: hidden;
-    position: relative;
-  }
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #fde4fd;
+  padding-top: 40px;
+  overflow-x: hidden;
+  position: relative;
+}
 
-  h1 {
-    font-size: 2rem;
-    color: #ff4d88;
-    margin-bottom: 20px;
-  }
+h1 {
+  font-size: 2rem;
+  color: #ff4d88;
+  margin-bottom: 20px;
+}
 
-  #image-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
-    position: relative;
-  }
+#image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  position: relative;
+}
 
-  img {
-    width: 200px;
-    max-width: 80vw;
-    transition: width 0.3s ease, transform 0.3s ease;
-    margin-top: 20px;
-    display: block;
-  }
+img {
+  width: 200px;
+  max-width: 80vw;
+  transition: width 0.3s ease, transform 0.3s ease;
+  margin-top: 20px;
+  display: block;
+}
 
-  #whyText, #message {
-    font-size: 1rem;
-    color: #cc0066;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    min-height: 24px;
-  }
+#whyText, #message {
+  font-size: 1rem;
+  color: #cc0066;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  min-height: 24px;
+}
 
-  #message {
-    color: #ff3385;
-    font-weight: bold;
-  }
+#message {
+  color: #ff3385;
+  font-weight: bold;
+}
 
-  #buttons {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 0;
-    height: 60px;
-  }
+#buttons {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 0;
+  height: 60px;
+}
 
-  button {
-    font-size: 1rem;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    white-space: nowrap;
-    min-width: 80px;
-  }
+button {
+  font-size: 1rem;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  min-width: 80px;
+}
 
-  #yesBtn { background-color: #ff66b2; color: white; }
-  #noBtn { background-color: #ccc; color: black; }
+#yesBtn { background-color: #ff66b2; color: white; }
+#noBtn { background-color: #ccc; color: black; }
 
-  .heart {
-    position: fixed;
-    width: 12px;
-    height: 12px;
-    background-color: #ff4d88;
-    transform: rotate(-45deg);
-    top: -20px;
-    pointer-events: none;
-    z-index: 50;
-    animation: fall linear forwards;
-  }
+.heart {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  background-color: #ff4d88;
+  transform: rotate(-45deg);
+  pointer-events: none;
+  z-index: 50;
+  border-radius: 2px;
+}
 
-  .heart::before,
-  .heart::after {
-    content: "";
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    background-color: #ff4d88;
-    border-radius: 50%;
-  }
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: #ff4d88;
+  border-radius: 50%;
+}
 
-  .heart::before {
-    top: -6px;
-    left: 0;
-  }
+.heart::before { top: -6px; left: 0; }
+.heart::after { left: 6px; top: 0; }
 
-  .heart::after {
-    left: 6px;
-    top: 0;
-  }
+.shake { animation: shakeAnim 0.7s; }
 
-  @keyframes fall {
-    0% { transform: translateY(0) rotate(0deg); opacity:1; }
-    100% { transform: translateY(120vh) rotate(360deg); opacity:0; }
-  }
+@keyframes shakeAnim {
+  0% { transform: translate(0px,0px) rotate(0deg); }
+  10% { transform: translate(-15px,-15px) rotate(-10deg); }
+  20% { transform: translate(15px,-10px) rotate(10deg); }
+  30% { transform: translate(-15px,15px) rotate(-10deg); }
+  40% { transform: translate(15px,10px) rotate(10deg); }
+  50% { transform: translate(-15px,-10px) rotate(-10deg); }
+  60% { transform: translate(15px,-15px) rotate(10deg); }
+  70% { transform: translate(-15px,10px) rotate(-10deg); }
+  80% { transform: translate(15px,15px) rotate(10deg); }
+  90% { transform: translate(-15px,-10px) rotate(-10deg); }
+  100% { transform: translate(0px,0px) rotate(0deg); }
+}
 
-  .shake { animation: shakeAnim 0.7s; }
+.bounce { animation: bounceAnim 0.5s; }
 
-  @keyframes shakeAnim {
-    0% { transform: translate(0px,0px) rotate(0deg); }
-    10% { transform: translate(-15px,-15px) rotate(-10deg); }
-    20% { transform: translate(15px,-10px) rotate(10deg); }
-    30% { transform: translate(-15px,15px) rotate(-10deg); }
-    40% { transform: translate(15px,10px) rotate(10deg); }
-    50% { transform: translate(-15px,-10px) rotate(-10deg); }
-    60% { transform: translate(15px,-15px) rotate(10deg); }
-    70% { transform: translate(-15px,10px) rotate(-10deg); }
-    80% { transform: translate(15px,15px) rotate(10deg); }
-    90% { transform: translate(-15px,-10px) rotate(-10deg); }
-    100% { transform: translate(0px,0px) rotate(0deg); }
-  }
+@keyframes bounceAnim {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.2); }
+  50% { transform: scale(0.9); }
+  75% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
 
-  .bounce { animation: bounceAnim 0.5s; }
+#explosionContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  z-index: 100;
+}
 
-  @keyframes bounceAnim {
-    0% { transform: scale(1); }
-    25% { transform: scale(1.2); }
-    50% { transform: scale(0.9); }
-    75% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-  }
+#explosionContainer img {
+  width: 200px;
+  max-width: 90vw;
+  border-radius: 20px;
+  box-shadow: 0 0 30px #ff66b2;
+  animation: explodeAnim 1s ease forwards;
+}
 
-  #explosionContainer {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: none;
-    z-index: 100;
-  }
-
-  #explosionContainer img {
-    width: 200px;
-    max-width: 90vw;
-    border-radius: 20px;
-    box-shadow: 0 0 30px #ff66b2;
-    animation: explodeAnim 1s ease forwards;
-  }
-
-  @keyframes explodeAnim {
-    0% { transform: scale(0.5) rotate(0deg); opacity: 0; }
-    50% { transform: scale(1.5) rotate(180deg); opacity: 1; }
-    100% { transform: scale(2) rotate(360deg); opacity: 1; }
-  }
+@keyframes explodeAnim {
+  0% { transform: scale(0.5) rotate(0deg); opacity: 0; }
+  50% { transform: scale(1.5) rotate(180deg); opacity: 1; }
+  100% { transform: scale(2) rotate(360deg); opacity: 1; }
+}
 </style>
 </head>
 <body>
@@ -174,12 +161,12 @@
 </div>
 
 <div id="explosionContainer">
-  <img id="usPic" src="your-picture.PNG" alt="Us">
+  <img id="usPic" src="your-picture.png" alt="Us">
 </div>
 
 <!-- Sounds -->
 <audio id="popSound" src="pop.mp3"></audio>
-<audio id="valentineSong" src="valentine-song.m4a"></audio>
+<audio id="valentineSong" src="valentine-song.mp3"></audio>
 
 <script>
 const minion = document.getElementById("minion");
@@ -230,7 +217,7 @@ yesBtn.addEventListener("click", () => {
 
   document.body.classList.add('shake');
   minion.classList.add('bounce');
-  launchHearts(300, 15);
+  startHeartRain(); // continuous heart pop-up
 
   valentineSong.currentTime = 0;
   valentineSong.play();
@@ -240,7 +227,7 @@ yesBtn.addEventListener("click", () => {
     minion.classList.remove('bounce');
   }, 700);
 
-  // Stage 1: 3 seconds - clear minion/text/buttons and flood hearts
+  // Stage 1: 3 seconds - clear minion/text/buttons
   setTimeout(() => {
     title.style.display = "none";
     imageContainer.style.display = "none";
@@ -248,41 +235,47 @@ yesBtn.addEventListener("click", () => {
     message.style.display = "none";
     buttonsDiv.style.display = "none";
 
-    launchHearts(1000, 20); // massive hearts
+    startHeartRain(1500, 25); // flood hearts
   }, 3000);
 
-  // Stage 2: 6 seconds - show your picture with explosion hearts
+  // Stage 2: 6 seconds - show your picture
   setTimeout(() => {
     explosionContainer.style.display = "block";
     document.body.classList.add('shake');
 
-    launchHearts(300, 15); // extra hearts around picture
-
+    startHeartRain(300, 15); // extra hearts
     setTimeout(() => {
       document.body.classList.remove('shake');
     }, 1200);
   }, 6000);
 });
 
-function launchHearts(count = 120, maxSize = 12) {
-  for (let i = 0; i < count; i++) {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    const size = Math.random() * maxSize + 8;
-    heart.style.width = size + "px";
-    heart.style.height = size + "px";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (Math.random() * 1 + 1.2) + "s";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 4000);
-  }
+// Heart pop-up function: keeps spawning hearts at random positions
+function startHeartRain(count = 200, maxSize = 15) {
+  const interval = setInterval(() => {
+    for (let i = 0; i < count / 20; i++) {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      const size = Math.random() * maxSize + 8;
+      heart.style.width = size + "px";
+      heart.style.height = size + "px";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.top = Math.random() * 100 + "vh";
+      heart.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 70%)`;
+      document.body.appendChild(heart);
+      // animate floating up and fading
+      heart.animate([
+        { transform: `translateY(0px) rotate(0deg)`, opacity: 1 },
+        { transform: `translateY(-50px) rotate(${Math.random()*360}deg)`, opacity: 0 }
+      ], {
+        duration: 2000 + Math.random()*1000,
+        easing: 'ease-out',
+        fill: 'forwards'
+      });
+      setTimeout(() => heart.remove(), 3000);
+    }
+  }, 100); // spawn every 0.1s
 }
-
-window.addEventListener('resize', () => {
-  const maxTop = window.innerHeight - noBtn.offsetHeight - 50;
-  if (noBtnOffsetTop > maxTop) noBtnOffsetTop = maxTop;
-  noBtn.style.transform = `translateY(${noBtnOffsetTop}px)`;
-});
 </script>
 </body>
 </html>
