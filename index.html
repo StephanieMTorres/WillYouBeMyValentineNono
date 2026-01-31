@@ -7,7 +7,7 @@
     body {
       font-family: 'Comic Sans MS', cursive;
       text-align: center;
-      background: linear-gradient(to bottom, #ffe6f0, #fff);
+      background-color: #fde4fd; /* solid pink */
       padding-top: 40px;
       overflow: hidden;
       position: relative;
@@ -18,13 +18,14 @@
       color: #ff4d88;
       z-index: 2;
       position: relative;
+      margin-bottom: 30px; /* space below title for the image */
     }
 
     #image-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       z-index: 1;
       position: relative;
     }
@@ -32,6 +33,7 @@
     img {
       width: 200px;
       transition: transform 0.3s ease;
+      margin-top: 20px; /* space from title */
     }
 
     #buttons {
@@ -42,14 +44,15 @@
     }
 
     button {
-      font-size: 1.1rem; /* smaller so text fits */
-      padding: 12px 20px; /* adjust width */
+      font-size: 1.1rem;
+      padding: 12px 20px; 
       border: none;
       border-radius: 12px;
       cursor: pointer;
       transition: transform 0.2s ease;
       position: absolute;
-      white-space: nowrap; /* text stays on one line */
+      white-space: nowrap;
+      min-width: 80px; /* makes button rectangle, not huge */
     }
 
     #yesBtn {
@@ -109,7 +112,7 @@
 <div id="whyText"></div>
 <div id="message"></div>
 
-<audio id="popSound" src="pop.mp3"></audio> <!-- Add your sound file here -->
+<audio id="popSound" src="pop.mp3"></audio>
 
 <script>
   let imageScale = 1;
@@ -133,11 +136,11 @@
 
   let reasonIndex = 0;
 
-  // Keep No button inside visible screen area
+  // Safe area for No button
   function getSafeArea() {
-    const titleHeight = document.querySelector('h1').offsetHeight + 20;
+    const titleHeight = document.querySelector('h1').offsetHeight + 30;
     const btnHeight = 60;
-    const margin = 10;
+    const margin = 30; // bigger margin so button doesn't touch edges
     const minX = margin;
     const maxX = window.innerWidth - noBtn.offsetWidth - margin;
     const minY = titleHeight;
@@ -173,7 +176,7 @@
   });
 
   yesBtn.addEventListener("click", () => {
-    message.textContent = "YAY!! 💕🥰 My Valentine!";
+    message.textContent = "YAY!! 💕🥰 Happy Valentine’s Day!";
     whyText.textContent = "";
     launchConfetti();
   });
