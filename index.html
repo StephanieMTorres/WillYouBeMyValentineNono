@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Be My Valentine?</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      text-align: center;
+      background: linear-gradient(to bottom, #ffe6f0, #fff);
+      padding-top: 40px;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #ff4d88;
+    }
+
+    #image-container {
+      height: 260px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    img {
+      width: 200px;
+      transition: transform 0.3s ease;
+    }
+
+    #buttons {
+      position: relative;
+      z-index: 10;
+    }
+
+    button {
+      font-size: 1.2rem;
+      padding: 12px 25px;
+      margin: 15px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    #yesBtn {
+      background-color: #ff66b2;
+      color: white;
+    }
+
+    #noBtn {
+      background-color: #ccc;
+    }
+
+    #message {
+      font-size: 1.8rem;
+      margin-top: 20px;
+      color: #ff3385;
+    }
+
+    #whyText {
+      font-size: 1.1rem;
+      color: #cc0066;
+      margin-top: 10px;
+      min-height: 24px;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      top: -10px;
+      animation: fall 3s linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Will you be my Valentine? 💘</h1>
+
+  <div id="image-container">
+    <img id="minion" src="minion.jpg" alt="Minion holding heart">
+  </div>
+
+  <div id="buttons">
+    <button id="yesBtn">YES 💖</button>
+    <button id="noBtn">NO 😐</button>
+  </div>
+
+  <div id="whyText"></div>
+  <div id="message"></div>
+
+  <script>
+    let imageScale = 1;
+    let noScale = 1;
+
+    const minion = document.getElementById("minion");
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const message = document.getElementById("message");
+    const whyText = document.getElementById("whyText");
+
+    const reasons = [
+      "Why not? 🥺",
+      "Are you sure?? 💔",
+      "I brought roses though 😭",
+      "This minion is SAD now",
+      "That was rude 😐",
+      "Try again pls 💕"
+    ];
+
+    let reasonIndex = 0;
+
+    noBtn.addEventListener("click", () => {
+      imageScale += 0.15;
+      noScale += 0.1;
+
+      // Cap sizes so nothing breaks
+      imageScale = Math.min(imageScale, 2.2);
+      noScale = Math.min(noScale, 1.6);
+
+      minion.style.transform = `scale(${imageScale})`;
+      noBtn.style.transform = `scale(${noScale})`;
+
+      whyText.textContent = reasons[reasonIndex % reasons.length];
+      reasonIndex++;
+    });
+
+    yesBtn.addEventListener("click", () => {
+      message.textContent = "YAY!! 💕🥰 Happy Valentine’s Day!";
+      whyText.textContent = "";
+      launchConfetti();
+    });
+
+    function launchConfetti() {
+      for (let i = 0; i < 120; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.backgroundColor =
+          `hsl(${Math.random() * 360}, 100%, 70%)`;
+        confetti.style.animationDuration =
+          Math.random() * 2 + 2 + "s";
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 4000);
+      }
+    }
+  </script>
+
+</body>
+</html>
