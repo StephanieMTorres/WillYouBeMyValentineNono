@@ -211,13 +211,17 @@ noBtn.addEventListener("click", () => {
   popSound.play();
 });
 
+let heartInterval;
+
 yesBtn.addEventListener("click", () => {
   message.textContent = "YAY!! 💕🥰 My Valentine!";
   whyText.textContent = "";
 
   document.body.classList.add('shake');
   minion.classList.add('bounce');
-  startHeartRain(); // continuous heart pop-up
+
+  // Start continuous heart popping immediately
+  startHeartRain(200, 20);
 
   valentineSong.currentTime = 0;
   valentineSong.play();
@@ -235,15 +239,15 @@ yesBtn.addEventListener("click", () => {
     message.style.display = "none";
     buttonsDiv.style.display = "none";
 
-    startHeartRain(1500, 25); // flood hearts
+    // Flood hearts even more
+    startHeartRain(500, 25);
   }, 3000);
 
   // Stage 2: 6 seconds - show your picture
   setTimeout(() => {
     explosionContainer.style.display = "block";
     document.body.classList.add('shake');
-
-    startHeartRain(300, 15); // extra hearts
+    startHeartRain(300, 20); // continue heart pop-ups
     setTimeout(() => {
       document.body.classList.remove('shake');
     }, 1200);
@@ -252,7 +256,10 @@ yesBtn.addEventListener("click", () => {
 
 // Heart pop-up function: keeps spawning hearts at random positions
 function startHeartRain(count = 200, maxSize = 15) {
-  const interval = setInterval(() => {
+  // Clear existing interval if any
+  if (heartInterval) clearInterval(heartInterval);
+
+  heartInterval = setInterval(() => {
     for (let i = 0; i < count / 20; i++) {
       const heart = document.createElement("div");
       heart.classList.add("heart");
@@ -263,7 +270,7 @@ function startHeartRain(count = 200, maxSize = 15) {
       heart.style.top = Math.random() * 100 + "vh";
       heart.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 70%)`;
       document.body.appendChild(heart);
-      // animate floating up and fading
+      // animate floating
       heart.animate([
         { transform: `translateY(0px) rotate(0deg)`, opacity: 1 },
         { transform: `translateY(-50px) rotate(${Math.random()*360}deg)`, opacity: 0 }
@@ -276,6 +283,12 @@ function startHeartRain(count = 200, maxSize = 15) {
     }
   }, 100); // spawn every 0.1s
 }
+
+window.addEventListener('resize', () => {
+  const maxTop = window.innerHeight - noBtn.offsetHeight - 50;
+  if (noBtnOffsetTop > maxTop) noBtnOffsetTop = maxTop;
+  noBtn.style.transform = `translateY(${noBtnOffsetTop}px)`;
+});
 </script>
 </body>
 </html>
