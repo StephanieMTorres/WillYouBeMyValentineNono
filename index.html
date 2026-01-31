@@ -8,31 +8,26 @@
     body {
       font-family: 'Comic Sans MS', cursive;
       text-align: center;
-      background-color: #d3e564; /* solid pink */
+      background-color: #649ce5; /* solid pink */
       padding-top: 40px;
-      overflow: hidden;
-      position: relative;
+      overflow-x: hidden;
     }
 
     h1 {
       font-size: 2rem;
       color: #ff4d88;
       margin-bottom: 30px;
-      z-index: 2;
-      position: relative;
     }
 
     #image-container {
       display: flex;
       justify-content: center;
-      align-items: center;
       margin-bottom: 20px;
-      position: relative;
     }
 
     img {
       width: 200px;       /* base width */
-      max-width: 80vw;    /* responsive for iPhone */
+      max-width: 80vw;    /* responsive for mobile */
       transition: width 0.3s ease;
       margin-top: 20px;
       display: block;
@@ -40,41 +35,36 @@
 
     #buttons {
       position: relative;
-      z-index: 2;
+      display: flex;
+      justify-content: center;
+      gap: 20px; /* space between buttons */
       margin-top: 20px;
-      height: 60px;
     }
 
     button {
       font-size: 1rem;
-      padding: 12px 20px;
+      padding: 12px 25px;
       border: none;
       border-radius: 12px;
       cursor: pointer;
-      position: absolute;
       white-space: nowrap;
-      min-width: 80px; /* keeps rectangle shape */
+      min-width: 80px; /* fixed width */
     }
 
     #yesBtn {
       background-color: #ff66b2;
       color: white;
-      left: 50px;
-      bottom: 0;
     }
 
     #noBtn {
       background-color: #ccc;
-      right: 50px;
-      bottom: 0;
+      color: black;
     }
 
     #message {
       font-size: 1.5rem;
       margin-top: 20px;
       color: #ff3385;
-      position: relative;
-      z-index: 2;
     }
 
     #whyText {
@@ -82,8 +72,6 @@
       color: #cc0066;
       margin-top: 10px;
       min-height: 24px;
-      position: relative;
-      z-index: 2;
     }
 
     .confetti {
@@ -138,41 +126,28 @@
 
   let reasonIndex = 0;
 
-  // Function to move No button randomly within fixed boundaries
-  function moveNoButtonRandomly() {
-    const titleHeight = document.querySelector('h1').offsetHeight + 20;
-    const bottomMargin = 150;
-    const margin = 15;
-
-    const btnWidth = noBtn.offsetWidth;
-    const btnHeight = noBtn.offsetHeight;
-
-    const minX = margin;
-    const maxX = window.innerWidth - btnWidth - margin;
-    const minY = titleHeight;
-    const maxY = window.innerHeight - btnHeight - bottomMargin;
-
-    const x = Math.random() * (maxX - minX) + minX;
-    const y = Math.random() * (maxY - minY) + minY;
-
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-  }
+  // Track vertical movement of No button
+  let noBtnOffsetTop = 0;
+  const moveStep = 20; // pixels to move down per click
 
   noBtn.addEventListener("click", () => {
-    // Move No button randomly within boundaries
-    moveNoButtonRandomly();
-
-    whyText.textContent = reasons[reasonIndex % reasons.length];
-    reasonIndex++;
-
-    popSound.currentTime = 0;
-    popSound.play();
-
     // Increase minion image width naturally
     const currentWidth = minion.offsetWidth;
     const newWidth = currentWidth * 1.15;
     minion.style.width = Math.min(newWidth, window.innerWidth * 0.8) + "px";
+
+    // Move No button down but stay inside viewport
+    noBtnOffsetTop += moveStep;
+    const maxTop = window.innerHeight - noBtn.offsetHeight - 50;
+    if (noBtnOffsetTop > maxTop) noBtnOffsetTop = maxTop;
+    noBtn.style.transform = `translateY(${noBtnOffsetTop}px)`;
+
+    whyText.textContent = reasons[reasonIndex % reasons.length];
+    reasonIndex++;
+
+    // Play pop sound
+    popSound.currentTime = 0;
+    popSound.play();
   });
 
   yesBtn.addEventListener("click", () => {
@@ -196,15 +171,13 @@
     }
   }
 
-  // Keep No button inside bounds on resize
+  // Optional: Reset button position on resize
   window.addEventListener('resize', () => {
-    moveNoButtonRandomly();
+    const maxTop = window.innerHeight - noBtn.offsetHeight - 50;
+    if (noBtnOffsetTop > maxTop) noBtnOffsetTop = maxTop;
+    noBtn.style.transform = `translateY(${noBtnOffsetTop}px)`;
   });
-
-  // Initial No button placement
-  moveNoButtonRandomly();
 </script>
 
 </body>
 </html>
-
