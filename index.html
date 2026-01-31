@@ -16,13 +16,13 @@
     h1 {
       font-size: 2rem;
       color: #ff4d88;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
 
     #image-container {
       display: flex;
       justify-content: center;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     img {
@@ -33,12 +33,22 @@
       display: block;
     }
 
+    /* The message that appears when clicking No, under the image */
+    #whyText {
+      font-size: 1rem;
+      color: #cc0066;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      min-height: 24px;
+    }
+
     #buttons {
       position: relative;
       display: flex;
       justify-content: center;
       gap: 20px; /* space between buttons */
-      margin-top: 20px;
+      margin-top: 0;
+      height: 60px;
     }
 
     button {
@@ -48,7 +58,7 @@
       border-radius: 12px;
       cursor: pointer;
       white-space: nowrap;
-      min-width: 80px; /* fixed width */
+      min-width: 80px; /* fixed rectangle */
     }
 
     #yesBtn {
@@ -65,13 +75,6 @@
       font-size: 1.5rem;
       margin-top: 20px;
       color: #ff3385;
-    }
-
-    #whyText {
-      font-size: 1rem;
-      color: #cc0066;
-      margin-top: 10px;
-      min-height: 24px;
     }
 
     .confetti {
@@ -97,12 +100,14 @@
   <img id="minion" src="minion.jpg" alt="Minion holding heart">
 </div>
 
+<!-- The No button message is now above the buttons and under the image -->
+<div id="whyText"></div>
+
 <div id="buttons">
   <button id="yesBtn">YES 💖</button>
   <button id="noBtn">NO 😐</button>
 </div>
 
-<div id="whyText"></div>
 <div id="message"></div>
 
 <audio id="popSound" src="pop.mp3"></audio>
@@ -118,7 +123,7 @@
   const reasons = [
     "Why not? 🥺",
     "Are you sure?? 💔",
-    "I brought roses though 😭",
+    "Im giving you my heart💕 though 😭",
     "This minion is SAD now",
     "That was rude 😐",
     "Try again pls 💕"
@@ -142,6 +147,7 @@
     if (noBtnOffsetTop > maxTop) noBtnOffsetTop = maxTop;
     noBtn.style.transform = `translateY(${noBtnOffsetTop}px)`;
 
+    // Update whyText above the buttons
     whyText.textContent = reasons[reasonIndex % reasons.length];
     reasonIndex++;
 
@@ -171,7 +177,7 @@
     }
   }
 
-  // Optional: Reset button position on resize
+  // Optional: Adjust No button position on window resize
   window.addEventListener('resize', () => {
     const maxTop = window.innerHeight - noBtn.offsetHeight - 50;
     if (noBtnOffsetTop > maxTop) noBtnOffsetTop = maxTop;
@@ -181,4 +187,3 @@
 
 </body>
 </html>
-
