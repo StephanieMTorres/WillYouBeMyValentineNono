@@ -42,14 +42,14 @@
     }
 
     button {
-      font-size: 1.2rem;
-      padding: 12px 25px;
-      margin: 15px;
+      font-size: 1.1rem; /* smaller so text fits */
+      padding: 12px 20px; /* adjust width */
       border: none;
       border-radius: 12px;
       cursor: pointer;
       transition: transform 0.2s ease;
       position: absolute;
+      white-space: nowrap; /* text stays on one line */
     }
 
     #yesBtn {
@@ -133,14 +133,15 @@
 
   let reasonIndex = 0;
 
-  // Get the viewport dimensions minus reserved space for buttons/title
+  // Keep No button inside visible screen area
   function getSafeArea() {
     const titleHeight = document.querySelector('h1').offsetHeight + 20;
     const btnHeight = 60;
-    const minX = 0;
-    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const margin = 10;
+    const minX = margin;
+    const maxX = window.innerWidth - noBtn.offsetWidth - margin;
     const minY = titleHeight;
-    const maxY = window.innerHeight - btnHeight - noBtn.offsetHeight;
+    const maxY = window.innerHeight - btnHeight - noBtn.offsetHeight - margin;
     return { minX, maxX, minY, maxY };
   }
 
@@ -156,7 +157,6 @@
     imageScale += 0.15;
     noScale += 0.1;
 
-    // Cap sizes
     imageScale = Math.min(imageScale, 2.2);
     noScale = Math.min(noScale, 1.6);
 
@@ -166,16 +166,14 @@
     whyText.textContent = reasons[reasonIndex % reasons.length];
     reasonIndex++;
 
-    // Move button randomly
     moveNoButtonRandomly();
 
-    // Play sound
     popSound.currentTime = 0;
     popSound.play();
   });
 
   yesBtn.addEventListener("click", () => {
-    message.textContent = "YAY!! 💕🥰 Happy Valentine’s Day!";
+    message.textContent = "YAY!! 💕🥰 My Valentine!";
     whyText.textContent = "";
     launchConfetti();
   });
@@ -195,7 +193,7 @@
     }
   }
 
-  // Optional: adjust minion size on window resize
+  // Keep No button in view on window resize
   window.addEventListener('resize', () => {
     moveNoButtonRandomly();
   });
