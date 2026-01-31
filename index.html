@@ -2,27 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Be My Valentine?</title>
+  <title>Will you be my Valentine Nono?</title>
   <style>
     body {
       font-family: 'Comic Sans MS', cursive;
       text-align: center;
       background: linear-gradient(to bottom, #ffe6f0, #fff);
       padding-top: 40px;
-      overflow-x: hidden;
+      overflow: hidden;
+      position: relative;
     }
 
     h1 {
       font-size: 2.5rem;
       color: #ff4d88;
+      z-index: 2;
+      position: relative;
     }
 
     #image-container {
-      height: 260px;
       display: flex;
       justify-content: center;
       align-items: center;
       margin-bottom: 10px;
+      z-index: 1;
+      position: relative;
     }
 
     img {
@@ -32,7 +36,9 @@
 
     #buttons {
       position: relative;
-      z-index: 10;
+      z-index: 2;
+      margin-top: 20px;
+      height: 60px; /* reserve space for buttons */
     }
 
     button {
@@ -43,15 +49,20 @@
       border-radius: 12px;
       cursor: pointer;
       transition: transform 0.2s ease;
+      position: absolute;
     }
 
     #yesBtn {
       background-color: #ff66b2;
       color: white;
+      left: 50px;
+      bottom: 0;
     }
 
     #noBtn {
       background-color: #ccc;
+      right: 50px;
+      bottom: 0;
     }
 
     #message {
@@ -84,77 +95,111 @@
 </head>
 <body>
 
-  <h1>Will you be my Valentine? 💘</h1>
+<h1>Will you be my Valentine Nono? 💘</h1>
 
-  <div id="image-container">
-    <img id="minion" src="minion.jpg" alt="Minion holding heart">
-  </div>
+<div id="image-container">
+  <img id="minion" src="minion.jpg" alt="Minion holding heart">
+</div>
 
-  <div id="buttons">
-    <button id="yesBtn">YES 💖</button>
-    <button id="noBtn">NO 😐</button>
-  </div>
+<div id="buttons">
+  <button id="yesBtn">YES 💖</button>
+  <button id="noBtn">NO 😐</button>
+</div>
 
-  <div id="whyText"></div>
-  <div id="message"></div>
+<div id="whyText"></div>
+<div id="message"></div>
 
-  <script>
-    let imageScale = 1;
-    let noScale = 1;
+<audio id="popSound" src="pop.mp3"></audio> <!-- Add your sound file here -->
 
-    const minion = document.getElementById("minion");
-    const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
-    const message = document.getElementById("message");
-    const whyText = document.getElementById("whyText");
+<script>
+  let imageScale = 1;
+  let noScale = 1;
 
-    const reasons = [
-      "Why not? 🥺",
-      "Are you sure?? 💔",
-      "I brought roses though 😭",
-      "This minion is SAD now",
-      "That was rude 😐",
-      "Try again pls 💕"
-    ];
+  const minion = document.getElementById("minion");
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const message = document.getElementById("message");
+  const whyText = document.getElementById("whyText");
+  const popSound = document.getElementById("popSound");
 
-    let reasonIndex = 0;
+  const reasons = [
+    "Why not? 🥺",
+    "Are you sure?? 💔",
+    "I brought roses though 😭",
+    "This minion is SAD now",
+    "That was rude 😐",
+    "Try again pls 💕"
+  ];
 
-    noBtn.addEventListener("click", () => {
-      imageScale += 0.15;
-      noScale += 0.1;
+  let reasonIndex = 0;
 
-      // Cap sizes so nothing breaks
-      imageScale = Math.min(imageScale, 2.2);
-      noScale = Math.min(noScale, 1.6);
+  // Get the viewport dimensions minus reserved space for buttons/title
+  function getSafeArea() {
+    const titleHeight = document.querySelector('h1').offsetHeight + 20;
+    const btnHeight = 60;
+    const minX = 0;
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const minY = titleHeight;
+    const maxY = window.innerHeight - btnHeight - noBtn.offsetHeight;
+    return { minX, maxX, minY, maxY };
+  }
 
-      minion.style.transform = `scale(${imageScale})`;
-      noBtn.style.transform = `scale(${noScale})`;
+  function moveNoButtonRandomly() {
+    const area = getSafeArea();
+    const x = Math.random() * (area.maxX - area.minX) + area.minX;
+    const y = Math.random() * (area.maxY - area.minY) + area.minY;
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  }
 
-      whyText.textContent = reasons[reasonIndex % reasons.length];
-      reasonIndex++;
-    });
+  noBtn.addEventListener("click", () => {
+    imageScale += 0.15;
+    noScale += 0.1;
 
-    yesBtn.addEventListener("click", () => {
-      message.textContent = "YAY!! 💕🥰 Happy Valentine’s Day!";
-      whyText.textContent = "";
-      launchConfetti();
-    });
+    // Cap sizes
+    imageScale = Math.min(imageScale, 2.2);
+    noScale = Math.min(noScale, 1.6);
 
-    function launchConfetti() {
-      for (let i = 0; i < 120; i++) {
-        const confetti = document.createElement("div");
-        confetti.classList.add("confetti");
-        confetti.style.left = Math.random() * 100 + "vw";
-        confetti.style.backgroundColor =
-          `hsl(${Math.random() * 360}, 100%, 70%)`;
-        confetti.style.animationDuration =
-          Math.random() * 2 + 2 + "s";
-        document.body.appendChild(confetti);
+    minion.style.transform = `scale(${imageScale})`;
+    noBtn.style.transform = `scale(${noScale})`;
 
-        setTimeout(() => confetti.remove(), 4000);
-      }
+    whyText.textContent = reasons[reasonIndex % reasons.length];
+    reasonIndex++;
+
+    // Move button randomly
+    moveNoButtonRandomly();
+
+    // Play sound
+    popSound.currentTime = 0;
+    popSound.play();
+  });
+
+  yesBtn.addEventListener("click", () => {
+    message.textContent = "YAY!! 💕🥰 Happy Valentine’s Day!";
+    whyText.textContent = "";
+    launchConfetti();
+  });
+
+  function launchConfetti() {
+    for (let i = 0; i < 120; i++) {
+      const confetti = document.createElement("div");
+      confetti.classList.add("confetti");
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.backgroundColor =
+        `hsl(${Math.random() * 360}, 100%, 70%)`;
+      confetti.style.animationDuration =
+        Math.random() * 2 + 2 + "s";
+      document.body.appendChild(confetti);
+
+      setTimeout(() => confetti.remove(), 4000);
     }
-  </script>
+  }
+
+  // Optional: adjust minion size on window resize
+  window.addEventListener('resize', () => {
+    moveNoButtonRandomly();
+  });
+</script>
 
 </body>
 </html>
