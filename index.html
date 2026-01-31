@@ -6,11 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: 'Comic Sans MS', cursive;
+      font-family: Arial, sans-serif;
       text-align: center;
       background-color: #fde4fd; /* solid pink */
       padding-top: 40px;
       overflow-x: hidden;
+      position: relative;
     }
 
     h1 {
@@ -23,23 +24,29 @@
       display: flex;
       justify-content: center;
       margin-bottom: 10px;
+      position: relative;
     }
 
     img {
       width: 200px;       /* base width */
       max-width: 80vw;    /* responsive for mobile */
-      transition: width 0.3s ease;
+      transition: width 0.3s ease, transform 0.3s ease;
       margin-top: 20px;
       display: block;
     }
 
-    /* The message that appears when clicking No, under the image */
-    #whyText {
+    /* Messages appear under the image, above buttons */
+    #whyText, #message {
       font-size: 1rem;
       color: #cc0066;
       margin-top: 10px;
       margin-bottom: 20px;
       min-height: 24px;
+    }
+
+    #message {
+      color: #ff3385;
+      font-weight: bold;
     }
 
     #buttons {
@@ -71,24 +78,46 @@
       color: black;
     }
 
-    #message {
-      font-size: 1.5rem;
-      margin-top: 20px;
-      color: #ff3385;
-    }
-
     .confetti {
       position: fixed;
       width: 8px;
       height: 8px;
       top: -10px;
-      animation: fall 3s linear infinite;
+      animation: fall linear infinite;
+      pointer-events: none;
+      border-radius: 50%;
     }
 
-    @keyframes fall {
-      to {
-        transform: translateY(100vh) rotate(360deg);
-      }
+    /* Screen shake effect */
+    .shake {
+      animation: shakeAnim 0.7s;
+    }
+
+    @keyframes shakeAnim {
+      0% { transform: translate(0px, 0px) rotate(0deg); }
+      10% { transform: translate(-15px, -15px) rotate(-10deg); }
+      20% { transform: translate(15px, -10px) rotate(10deg); }
+      30% { transform: translate(-15px, 15px) rotate(-10deg); }
+      40% { transform: translate(15px, 10px) rotate(10deg); }
+      50% { transform: translate(-15px, -10px) rotate(-10deg); }
+      60% { transform: translate(15px, -15px) rotate(10deg); }
+      70% { transform: translate(-15px, 10px) rotate(-10deg); }
+      80% { transform: translate(15px, 15px) rotate(10deg); }
+      90% { transform: translate(-15px, -10px) rotate(-10deg); }
+      100% { transform: translate(0px, 0px) rotate(0deg); }
+    }
+
+    /* Image bounce on Yes */
+    .bounce {
+      animation: bounceAnim 0.5s;
+    }
+
+    @keyframes bounceAnim {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(0.9); }
+      75% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
@@ -100,17 +129,17 @@
   <img id="minion" src="minion.jpg" alt="Minion holding heart">
 </div>
 
-<!-- The No button message is now above the buttons and under the image -->
 <div id="whyText"></div>
+<div id="message"></div>
 
 <div id="buttons">
   <button id="yesBtn">YES 💖</button>
   <button id="noBtn">NO 😐</button>
 </div>
 
-<div id="message"></div>
-
+<!-- Sounds -->
 <audio id="popSound" src="pop.mp3"></audio>
+<audio id="valentineSong" src="valentine-song.mp3"></audio>
 
 <script>
   const minion = document.getElementById("minion");
@@ -119,11 +148,12 @@
   const message = document.getElementById("message");
   const whyText = document.getElementById("whyText");
   const popSound = document.getElementById("popSound");
+  const valentineSong = document.getElementById("valentineSong");
 
   const reasons = [
     "Why not? 🥺",
     "Are you sure?? 💔",
-    "Im giving you my heart💕 though 😭",
+    "Im giving you my heart though 😭",
     "This minion is SAD now",
     "That was rude 😐",
     "Try again pls 💕"
@@ -147,7 +177,7 @@
     if (noBtnOffsetTop > maxTop) noBtnOffsetTop = maxTop;
     noBtn.style.transform = `translateY(${noBtnOffsetTop}px)`;
 
-    // Update whyText above the buttons
+    // Update No message
     whyText.textContent = reasons[reasonIndex % reasons.length];
     reasonIndex++;
 
@@ -157,20 +187,36 @@
   });
 
   yesBtn.addEventListener("click", () => {
+    // Update Yes message
     message.textContent = "YAY!! 💕🥰 My Valentine!";
     whyText.textContent = "";
-    launchConfetti();
+
+    // Shake screen
+    document.body.classList.add('shake');
+    setTimeout(() => document.body.classList.remove('shake'), 700);
+
+    // Bounce minion image
+    minion.classList.add('bounce');
+    setTimeout(() => minion.classList.remove('bounce'), 500);
+
+    // Launch more intense confetti
+    launchConfetti(200, 15);
+
+    // Play valentine song
+    valentineSong.currentTime = 0;
+    valentineSong.play();
   });
 
-  function launchConfetti() {
-    for (let i = 0; i < 120; i++) {
+  function launchConfetti(count = 120, maxSize = 8) {
+    for (let i = 0; i < count; i++) {
       const confetti = document.createElement("div");
       confetti.classList.add("confetti");
       confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.width = Math.random() * maxSize + 5 + "px";
+      confetti.style.height = confetti.style.width;
       confetti.style.backgroundColor =
-        `hsl(${Math.random() * 360}, 100%, 70%)`;
-      confetti.style.animationDuration =
-        Math.random() * 2 + 2 + "s";
+        `hsl(${Math.random() * 360}, 100%, 50%)`;
+      confetti.style.animationDuration = (Math.random() * 1 + 1.5) + "s";
       document.body.appendChild(confetti);
 
       setTimeout(() => confetti.remove(), 4000);
