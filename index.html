@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Will you be my Valentine Nono?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: 'Comic Sans MS', cursive;
@@ -14,9 +15,9 @@
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 2rem;
       color: #ff4d88;
-      margin-bottom: 40px; /* space for image */
+      margin-bottom: 30px;
       z-index: 2;
       position: relative;
     }
@@ -26,15 +27,14 @@
       justify-content: center;
       align-items: center;
       margin-bottom: 20px;
-      z-index: 1;
       position: relative;
     }
 
     img {
-      width: 200px;           /* base width */
-      max-width: 80vw;        /* prevent overflowing screen */
+      width: 200px;       /* base width */
+      max-width: 80vw;    /* responsive for iPhone */
       transition: width 0.3s ease;
-      margin-top: 20px;       /* space from title */
+      margin-top: 20px;
       display: block;
     }
 
@@ -46,15 +46,14 @@
     }
 
     button {
-      font-size: 1.1rem;
-      padding: 12px 20px; 
+      font-size: 1rem;
+      padding: 12px 20px;
       border: none;
       border-radius: 12px;
       cursor: pointer;
-      transition: transform 0.2s ease;
       position: absolute;
       white-space: nowrap;
-      min-width: 80px; /* ensures rectangle shape */
+      min-width: 80px; /* keeps rectangle shape */
     }
 
     #yesBtn {
@@ -71,7 +70,7 @@
     }
 
     #message {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       margin-top: 20px;
       color: #ff3385;
       position: relative;
@@ -79,7 +78,7 @@
     }
 
     #whyText {
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: #cc0066;
       margin-top: 10px;
       min-height: 24px;
@@ -121,8 +120,6 @@
 <audio id="popSound" src="pop.mp3"></audio>
 
 <script>
-  let noScale = 1;
-
   const minion = document.getElementById("minion");
   const noBtn = document.getElementById("noBtn");
   const yesBtn = document.getElementById("yesBtn");
@@ -141,35 +138,29 @@
 
   let reasonIndex = 0;
 
-  // Safe area for No button (accounts for scaling)
-  function getSafeArea() {
-    const titleHeight = document.querySelector('h1').offsetHeight + 30;
-    const bottomMargin = 150; // reserve space for message and buttons
-    const margin = 30;
+  // Function to move No button randomly within fixed boundaries
+  function moveNoButtonRandomly() {
+    const titleHeight = document.querySelector('h1').offsetHeight + 20;
+    const bottomMargin = 150;
+    const margin = 15;
 
-    const scaledWidth = noBtn.offsetWidth * noScale;
-    const scaledHeight = noBtn.offsetHeight * noScale;
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
 
     const minX = margin;
-    const maxX = window.innerWidth - scaledWidth - margin;
+    const maxX = window.innerWidth - btnWidth - margin;
     const minY = titleHeight;
-    const maxY = window.innerHeight - scaledHeight - bottomMargin;
-    return { minX, maxX, minY, maxY };
-  }
+    const maxY = window.innerHeight - btnHeight - bottomMargin;
 
-  function moveNoButtonRandomly() {
-    const area = getSafeArea();
-    const x = Math.random() * (area.maxX - area.minX) + area.minX;
-    const y = Math.random() * (area.maxY - area.minY) + area.minY;
+    const x = Math.random() * (maxX - minX) + minX;
+    const y = Math.random() * (maxY - minY) + minY;
+
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
-    noBtn.style.transform = `scale(${noScale})`; // always keep scale applied
   }
 
   noBtn.addEventListener("click", () => {
-    // Increase No button scale
-    noScale += 0.1;
-    noScale = Math.min(noScale, 1.3); // max scale
+    // Move No button randomly within boundaries
     moveNoButtonRandomly();
 
     whyText.textContent = reasons[reasonIndex % reasons.length];
@@ -178,14 +169,14 @@
     popSound.currentTime = 0;
     popSound.play();
 
-    // Increase image width (grows down naturally)
+    // Increase minion image width naturally
     const currentWidth = minion.offsetWidth;
-    const newWidth = currentWidth * 1.15; // 15% bigger
+    const newWidth = currentWidth * 1.15;
     minion.style.width = Math.min(newWidth, window.innerWidth * 0.8) + "px";
   });
 
   yesBtn.addEventListener("click", () => {
-    message.textContent = "YAY!! 💕🥰 Happy Valentine’s Day!";
+    message.textContent = "YAY!! 💕🥰 My Valentine!";
     whyText.textContent = "";
     launchConfetti();
   });
@@ -205,10 +196,13 @@
     }
   }
 
-  // Keep No button inside safe area on resize
+  // Keep No button inside bounds on resize
   window.addEventListener('resize', () => {
     moveNoButtonRandomly();
   });
+
+  // Initial No button placement
+  moveNoButtonRandomly();
 </script>
 
 </body>
