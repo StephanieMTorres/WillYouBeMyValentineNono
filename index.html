@@ -1,155 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Will you be my Valentine Nono?</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #fde4fd;
-      padding-top: 40px;
-      overflow-x: hidden;
-      position: relative;
-    }
+<meta charset="UTF-8">
+<title>Will you be my Valentine Nono?</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #fde4fd;
+    padding-top: 40px;
+    overflow-x: hidden;
+    position: relative;
+  }
 
-    h1 {
-      font-size: 2rem;
-      color: #ff4d88;
-      margin-bottom: 20px;
-    }
+  h1 {
+    font-size: 2rem;
+    color: #ff4d88;
+    margin-bottom: 20px;
+  }
 
-    #image-container {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 10px;
-      position: relative;
-    }
+  #image-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    position: relative;
+  }
 
-    img {
-      width: 200px;
-      max-width: 80vw;
-      transition: width 0.3s ease, transform 0.3s ease;
-      margin-top: 20px;
-      display: block;
-    }
+  img {
+    width: 200px;
+    max-width: 80vw;
+    transition: width 0.3s ease, transform 0.3s ease;
+    margin-top: 20px;
+    display: block;
+  }
 
-    /* Messages appear under the image, above buttons */
-    #whyText, #message {
-      font-size: 1rem;
-      color: #cc0066;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      min-height: 24px;
-    }
+  #whyText, #message {
+    font-size: 1rem;
+    color: #cc0066;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    min-height: 24px;
+  }
 
-    #message {
-      color: #ff3385;
-      font-weight: bold;
-    }
+  #message {
+    color: #ff3385;
+    font-weight: bold;
+  }
 
-    #buttons {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 0;
-      height: 60px;
-    }
+  #buttons {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 0;
+    height: 60px;
+  }
 
-    button {
-      font-size: 1rem;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      white-space: nowrap;
-      min-width: 80px;
-    }
+  button {
+    font-size: 1rem;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    min-width: 80px;
+  }
 
-    #yesBtn {
-      background-color: #ff66b2;
-      color: white;
-    }
+  #yesBtn { background-color: #ff66b2; color: white; }
+  #noBtn { background-color: #ccc; color: black; }
 
-    #noBtn {
-      background-color: #ccc;
-      color: black;
-    }
+  .confetti {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    top: 0;
+    pointer-events: none;
+    border-radius: 50%;
+    animation: fall linear infinite;
+  }
 
-    /* Confetti */
-    .confetti {
-      position: fixed;
-      width: 8px;
-      height: 8px;
-      top: 0;
-      pointer-events: none;
-      border-radius: 50%;
-      animation: fall linear infinite;
-    }
+  @keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(120vh) rotate(360deg); }
+  }
 
-    @keyframes fall {
-      0% { transform: translateY(0) rotate(0deg); }
-      100% { transform: translateY(120vh) rotate(360deg); }
-    }
+  .shake { animation: shakeAnim 0.7s; }
 
-    /* Shake effect */
-    .shake {
-      animation: shakeAnim 0.7s;
-    }
+  @keyframes shakeAnim {
+    0% { transform: translate(0px,0px) rotate(0deg); }
+    10% { transform: translate(-15px,-15px) rotate(-10deg); }
+    20% { transform: translate(15px,-10px) rotate(10deg); }
+    30% { transform: translate(-15px,15px) rotate(-10deg); }
+    40% { transform: translate(15px,10px) rotate(10deg); }
+    50% { transform: translate(-15px,-10px) rotate(-10deg); }
+    60% { transform: translate(15px,-15px) rotate(10deg); }
+    70% { transform: translate(-15px,10px) rotate(-10deg); }
+    80% { transform: translate(15px,15px) rotate(10deg); }
+    90% { transform: translate(-15px,-10px) rotate(-10deg); }
+    100% { transform: translate(0px,0px) rotate(0deg); }
+  }
 
-    @keyframes shakeAnim {
-      0% { transform: translate(0px, 0px) rotate(0deg); }
-      10% { transform: translate(-15px, -15px) rotate(-10deg); }
-      20% { transform: translate(15px, -10px) rotate(10deg); }
-      30% { transform: translate(-15px, 15px) rotate(-10deg); }
-      40% { transform: translate(15px, 10px) rotate(10deg); }
-      50% { transform: translate(-15px, -10px) rotate(-10deg); }
-      60% { transform: translate(15px, -15px) rotate(10deg); }
-      70% { transform: translate(-15px, 10px) rotate(-10deg); }
-      80% { transform: translate(15px, 15px) rotate(10deg); }
-      90% { transform: translate(-15px, -10px) rotate(-10deg); }
-      100% { transform: translate(0px, 0px) rotate(0deg); }
-    }
+  .bounce { animation: bounceAnim 0.5s; }
 
-    /* Image bounce */
-    .bounce {
-      animation: bounceAnim 0.5s;
-    }
+  @keyframes bounceAnim {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.2); }
+    50% { transform: scale(0.9); }
+    75% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
 
-    @keyframes bounceAnim {
-      0% { transform: scale(1); }
-      25% { transform: scale(1.2); }
-      50% { transform: scale(0.9); }
-      75% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
+  #explosionContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    z-index: 100;
+  }
 
-    /* Explosion image container */
-    #explosionContainer {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: none;
-      z-index: 50;
-    }
+  #explosionContainer img {
+    width: 200px;
+    max-width: 90vw;
+    border-radius: 20px;
+    box-shadow: 0 0 30px #ff66b2;
+    animation: explodeAnim 1s ease forwards;
+  }
 
-    #explosionContainer img {
-      width: 200px;
-      max-width: 80vw;
-      border-radius: 20px;
-      box-shadow: 0 0 20px #ff66b2;
-      animation: explodeAnim 1s ease forwards;
-    }
-
-    @keyframes explodeAnim {
-      0% { transform: scale(0.5) rotate(0deg); opacity: 0; }
-      50% { transform: scale(1.5) rotate(180deg); opacity: 1; }
-      100% { transform: scale(1) rotate(360deg); opacity: 1; }
-    }
-  </style>
+  @keyframes explodeAnim {
+    0% { transform: scale(0.5) rotate(0deg); opacity: 0; }
+    50% { transform: scale(1.5) rotate(180deg); opacity: 1; }
+    100% { transform: scale(2) rotate(360deg); opacity: 1; }
+  }
+</style>
 </head>
 <body>
 
@@ -167,7 +151,6 @@
   <button id="noBtn">NO 😐</button>
 </div>
 
-<!-- Explosion container for your picture -->
 <div id="explosionContainer">
   <img id="usPic" src="your-picture.PNG" alt="Us">
 </div>
@@ -185,6 +168,9 @@
   const popSound = document.getElementById("popSound");
   const valentineSong = document.getElementById("valentineSong");
   const explosionContainer = document.getElementById("explosionContainer");
+  const title = document.querySelector("h1");
+  const buttonsDiv = document.getElementById("buttons");
+  const imageContainer = document.getElementById("image-container");
 
   const reasons = [
     "Why not? 🥺",
@@ -196,8 +182,6 @@
   ];
 
   let reasonIndex = 0;
-
-  // No button movement
   let noBtnOffsetTop = 0;
   const moveStep = 20;
 
@@ -206,13 +190,11 @@
     const newWidth = currentWidth * 1.15;
     minion.style.width = Math.min(newWidth, window.innerWidth * 0.8) + "px";
 
-    // Move down
     noBtnOffsetTop += moveStep;
     const maxTop = window.innerHeight - noBtn.offsetHeight - 50;
     if (noBtnOffsetTop > maxTop) noBtnOffsetTop = maxTop;
     noBtn.style.transform = `translateY(${noBtnOffsetTop}px)`;
 
-    // Update message
     whyText.textContent = reasons[reasonIndex % reasons.length];
     reasonIndex++;
 
@@ -224,29 +206,33 @@
     message.textContent = "YAY!! 💕🥰 My Valentine!";
     whyText.textContent = "";
 
-    // Shake + minion bounce + confetti + song
     document.body.classList.add('shake');
     minion.classList.add('bounce');
-    launchConfetti(250, 20);
+    launchConfetti(300, 20);
 
     valentineSong.currentTime = 0;
     valentineSong.play();
 
-    // Remove initial animations
     setTimeout(() => {
       document.body.classList.remove('shake');
       minion.classList.remove('bounce');
     }, 700);
 
-    // 6-second delayed “explosion” with picture
+    // After 6s, hide everything else & explode your picture
     setTimeout(() => {
-      document.body.classList.add('shake'); // shake again
-      explosionContainer.style.display = "block"; // show your picture
-      launchConfetti(300, 25); // extra confetti
+      title.style.display = "none";
+      imageContainer.style.display = "none";
+      whyText.style.display = "none";
+      message.style.display = "none";
+      buttonsDiv.style.display = "none";
+
+      explosionContainer.style.display = "block";
+      document.body.classList.add('shake');
+      launchConfetti(500, 25);
 
       setTimeout(() => {
         document.body.classList.remove('shake');
-      }, 1000);
+      }, 1200);
     }, 6000);
   });
 
@@ -259,24 +245,19 @@
       confetti.style.height = confetti.style.width;
       confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
 
-      // random start Y
       const startY = Math.random() * window.innerHeight * -0.5;
       confetti.style.transform = `translateY(${startY}px)`;
-
       confetti.style.animationDuration = (Math.random() * 1 + 1.5) + "s";
       document.body.appendChild(confetti);
       setTimeout(() => confetti.remove(), 4000);
     }
   }
 
-  // Adjust No button on resize
   window.addEventListener('resize', () => {
     const maxTop = window.innerHeight - noBtn.offsetHeight - 50;
     if (noBtnOffsetTop > maxTop) noBtnOffsetTop = maxTop;
     noBtn.style.transform = `translateY(${noBtnOffsetTop}px)`;
   });
 </script>
-
 </body>
 </html>
-
